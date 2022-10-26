@@ -1,0 +1,29 @@
+{
+  "name": "motokostablebtreetest",
+  "version": "1.0.0",
+  "description": "to test the motoko stable btree",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sardariuss/MotokoStableBTreeTest.git"
+  },
+  "keywords": [
+    "motoko",
+    "stable",
+    "btree"
+  ],
+  "author": "sardariuss",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sardariuss/MotokoStableBTreeTest/issues"
+  },
+  "homepage": "https://github.com/sardariuss/MotokoStableBTreeTest#readme",
+  "dependencies": {
+    "@dfinity/agent": "^0.14.0",
+    "node-fetch": "^3.2.10",
+    "tape": "^5.6.1"
+  }
+}
