@@ -1,12 +1,13 @@
 import StableBTree "mo:stableBTree/btreemap";
 import StableBTreeTypes "mo:stableBTree/types";
 import Conversion "mo:stableBTree/conversion";
-import StableMemory "mo:stableBTree/memory/stableMemory";
+import StableMemory "mo:stableBTree/memory";
 
 import Result "mo:base/Result";
 import Array "mo:base/Array";
 import Buffer "mo:base/Buffer";
 import Iter "mo:base/Iter";
+import Region "mo:base/Region";
 
 actor class Test(args: {
   max_key_size: Nat32;
@@ -35,7 +36,12 @@ actor class Test(args: {
     toBytes = func(text: Text) : [Nat8] { Conversion.textToBytes(text); };
   };
 
-  let btreemap_ = StableBTree.init<K, V>(StableMemory.STABLE_MEMORY, args.max_key_size, args.max_value_size, nat32_converter_, text_converter_);
+  // Upgrading to regions permits isolated, coexisting stable BTrees (or other stable data structures).
+  //
+  // By making this region 'stable', we persist the BTree in a region that persists across updates.
+  stable var our_region = Region.new();
+
+  let btreemap_ = StableBTree.init<K, V>(StableMemory.STABLE_MEMORY(our_region), args.max_key_size, args.max_value_size, nat32_converter_, text_converter_);
 
   public func getLength() : async Nat64 {
     btreemap_.getLength();
