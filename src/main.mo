@@ -37,9 +37,11 @@ actor class Test(args: {
   };
 
   // Upgrading to regions permits isolated, coexisting stable BTrees (or other stable data structures).
-  let region = Region.new();
+  //
+  // By making this region 'stable', we persist the BTree in a region that persists across updates.
+  stable var our_region = Region.new();
 
-  let btreemap_ = StableBTree.init<K, V>(StableMemory.STABLE_MEMORY(region), args.max_key_size, args.max_value_size, nat32_converter_, text_converter_);
+  let btreemap_ = StableBTree.init<K, V>(StableMemory.STABLE_MEMORY(our_region), args.max_key_size, args.max_value_size, nat32_converter_, text_converter_);
 
   public func getLength() : async Nat64 {
     btreemap_.getLength();
